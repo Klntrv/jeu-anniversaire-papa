@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Pour tes 56 ans, Papa</title>
+<style>
+:root{
+  --bg:#080b10; --ink:#f7f2e8; --muted:#b9b4aa; --gold:#f4d184;
+  --ease:cubic-bezier(.22,.8,.2,1);
+}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Arial,sans-serif}
+body{user-select:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button{font:inherit}
+#deck{position:relative;width:100%;height:100%;background:#070a0f;isolation:isolate}
+.slide{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(34px,0,0) scale(.992);transition:opacity .75s var(--ease),transform .9s var(--ease),visibility 0s linear .9s;background:
+ radial-gradient(circle at 18% 15%, color-mix(in srgb,var(--accent) 17%,transparent), transparent 38%),
+ linear-gradient(135deg,#0c1018 0%,#07090e 62%,#11131a 100%)}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s;z-index:2}
+.slide.was-active{transform:translate3d(-34px,0,0) scale(.992)}
+.grain{position:absolute;inset:0;opacity:.16;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E")}
+.eyebrow{margin:0 0 22px;letter-spacing:.24em;font-size:clamp(11px,1vw,14px);font-weight:800;color:var(--accent)}
+/* Cover */
+.slide-cover{display:grid;place-items:center;background:radial-gradient(circle at 22% 22%,#273047 0,#0d121d 32%,#070a10 70%)}
+.cover-content{position:relative;text-align:center;z-index:3;padding:8vh 8vw}
+.birthday-chip{width:104px;height:104px;margin:0 auto 30px;border:1px solid color-mix(in srgb,var(--accent) 58%,transparent);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;letter-spacing:.18em;font-size:10px;font-weight:800;color:#c8c4bb;box-shadow:0 0 0 10px rgba(244,209,132,.035)}
+.birthday-chip span{font-family:Georgia,"Times New Roman",serif;font-size:42px;line-height:.92;letter-spacing:0;color:var(--accent)}
+.cover-content h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(64px,8.6vw,150px);line-height:.84;letter-spacing:-.045em;margin:0;font-weight:400}
+.cover-content h1 em{font-weight:400;color:var(--accent)}
+.cover-subtitle{font-family:Georgia,"Times New Roman",serif;color:#d7d2c7;font-size:clamp(18px,1.45vw,27px);line-height:1.55;margin:36px auto 34px;max-width:760px}
+.cover-rule{display:flex;gap:18px;align-items:center;justify-content:center;color:#ada99e;font-size:10px;letter-spacing:.26em}
+.cover-rule span{width:min(110px,10vw);height:1px;background:linear-gradient(90deg,transparent,var(--accent))}.cover-rule span:last-child{transform:scaleX(-1)}
+.cover-orbit{position:absolute;border:1px solid rgba(244,209,132,.14);border-radius:50%;pointer-events:none}
+.orbit-a{width:68vw;height:68vw;max-width:1000px;max-height:1000px}.orbit-b{width:48vw;height:48vw;max-width:720px;max-height:720px;border-style:dashed;animation:spin 70s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.corner{position:absolute;width:82px;height:82px;border-color:rgba(244,209,132,.38);border-style:solid}.corner-tl{left:32px;top:32px;border-width:1px 0 0 1px}.corner-br{right:32px;bottom:32px;border-width:0 1px 1px 0}
+/* Message */
+.slide-message{display:grid;place-items:center;background:radial-gradient(circle at 76% 55%,rgba(244,209,132,.12),transparent 30%),linear-gradient(140deg,#0d1119,#07090d)}
+.message-card{position:relative;z-index:2;width:min(820px,78vw);padding:clamp(38px,6vw,78px);border:1px solid rgba(244,209,132,.26);background:rgba(12,15,22,.76);box-shadow:0 28px 90px rgba(0,0,0,.38);backdrop-filter:blur(12px)}
+.message-card h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(40px,4.3vw,72px);margin:0 0 24px;letter-spacing:-.035em}
+.message-rule{height:1px;width:96px;background:var(--accent);margin:0 0 32px}
+.message-card>p:not(.eyebrow):not(.signature){font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.35vw,23px);line-height:1.75;color:#d8d3c9;margin:0 0 18px}
+.signature{margin:38px 0 0;color:var(--accent);font-weight:700;letter-spacing:.04em}
+.message-56{position:absolute;right:5vw;bottom:-8vh;font-family:Georgia,"Times New Roman",serif;font-size:min(42vw,600px);line-height:1;color:rgba(244,209,132,.035);font-variant-numeric:lining-nums}
+/* Category */
+.slide-category{display:flex;align-items:center;padding:8vw;isolation:isolate}
+.category-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(90deg,#000,transparent 80%)}
+.category-copy{position:relative;z-index:2;max-width:930px}
+.category-copy h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(58px,7vw,125px);line-height:.95;letter-spacing:-.052em;font-weight:400;margin:0 0 26px;max-width:1000px}
+.tagline{font-family:Georgia,"Times New Roman",serif;color:var(--accent);font-size:clamp(21px,2vw,36px);margin:0 0 28px}
+.category-rule{height:2px;width:120px;background:var(--accent);margin:0 0 26px}
+.category-desc{max-width:680px;color:#c5c1b8;font-size:clamp(15px,1.25vw,21px);line-height:1.65;margin:0}
+.category-number{position:absolute;right:3vw;bottom:-8vh;font-family:Georgia,"Times New Roman",serif;font-size:min(42vw,620px);line-height:1;color:color-mix(in srgb,var(--accent) 8%,transparent);z-index:0}
+.category-icon{position:absolute;right:11vw;top:12vh;width:140px;height:140px;border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);border-radius:50%;display:grid;place-items:center;font-family:Georgia,"Times New Roman",serif;font-size:52px;color:var(--accent);box-shadow:0 0 0 18px color-mix(in srgb,var(--accent) 3%,transparent)}
+.category-dots{position:absolute;right:46px;top:50%;transform:translateY(-50%);display:grid;gap:10px}.category-dots i{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.38}.category-dots i:nth-child(3){height:32px;border-radius:6px;opacity:1}
+/* Content pages */
+.slide-content{background:radial-gradient(circle at 27% 48%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 42%),linear-gradient(118deg,#0d1119 0%,#080a0f 56%,#05070a 100%)}
+.slide-content:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(90deg,#000,transparent 72%);pointer-events:none}.slide-content:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,10,.22),rgba(5,7,10,.58) 61%,rgba(5,7,10,.96));pointer-events:none}
+.content-stage{position:relative;z-index:2;width:100%;height:100%;display:grid;grid-template-columns:minmax(0,1fr) clamp(270px,22vw,390px);align-items:center;gap:clamp(28px,4vw,74px);padding:clamp(28px,4vh,54px) clamp(28px,4vw,72px)}
+.image-frame{justify-self:center;display:grid;place-items:center;min-width:0;min-height:0;max-width:100%;max-height:100%;filter:drop-shadow(0 28px 44px rgba(0,0,0,.56))}
+.image-frame img{display:block;width:auto;height:auto;max-width:min(100%,calc(var(--native-w) * 1px));max-height:min(calc(100vh - 84px),calc(var(--native-h) * 1px));object-fit:contain;image-rendering:auto;transform:translateZ(0);backface-visibility:hidden;border:1px solid rgba(255,255,255,.16);background:#111}
+.content-meta{align-self:center;position:relative;padding:10px 0 10px 4px}
+.meta-category{color:var(--accent);font-size:11px;line-height:1.35;letter-spacing:.21em;font-weight:800;margin:0 0 22px}
+.content-meta h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,3.7vw,69px);line-height:.98;letter-spacing:-.045em;font-weight:400;margin:0 0 22px}
+.meta-subtitle{font-family:Georgia,"Times New Roman",serif;color:#d6d0c5;font-size:clamp(17px,1.45vw,25px);line-height:1.46;margin:0;max-width:330px}
+.meta-line{width:92px;height:2px;background:var(--accent);margin:30px 0}
+.meta-index{font-family:Georgia,"Times New Roman",serif;color:var(--accent);font-size:42px;margin-top:34px}.meta-index small{font-family:"Segoe UI",Arial,sans-serif;font-size:11px;letter-spacing:.12em;color:#777c7e}
+/* Final */
+.slide-final{display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 50% 45%,rgba(244,209,132,.14),transparent 36%),linear-gradient(135deg,#101521,#06080d)}
+.final-content{position:relative;z-index:2}.final-content h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(64px,8vw,138px);line-height:.86;letter-spacing:-.055em;margin:0}.final-content h2 em{font-weight:400;color:var(--accent)}
+.final-content>p:not(.eyebrow){font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,1.6vw,27px);color:#d5d0c6;margin:34px 0 24px}.final-rule{width:120px;height:1px;background:var(--accent);margin:0 auto 25px}.final-content strong{font-size:clamp(12px,1.1vw,17px);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.final-seal{position:absolute;right:5vw;bottom:5vh;width:112px;height:112px;border:1px solid rgba(244,209,132,.32);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent)}.final-seal span{font-family:Georgia,"Times New Roman",serif;font-size:42px;line-height:.9}.final-seal small{font-size:9px;letter-spacing:.2em;margin-top:6px}
+.final-stars i{position:absolute;width:3px;height:3px;background:var(--accent);border-radius:50%;opacity:.45}.final-stars i:nth-child(1){left:12%;top:18%}.final-stars i:nth-child(2){left:20%;top:72%}.final-stars i:nth-child(3){left:34%;top:12%}.final-stars i:nth-child(4){right:17%;top:24%}.final-stars i:nth-child(5){right:27%;bottom:16%}.final-stars i:nth-child(6){right:8%;top:61%}
+/* Controls */
+#controls{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(7,9,13,.72);box-shadow:0 12px 34px rgba(0,0,0,.35);backdrop-filter:blur(18px);transition:opacity .3s,transform .3s}
+body.controls-hidden #controls{opacity:0;transform:translate(-50%,20px);pointer-events:none}
+.control-btn{height:38px;min-width:38px;padding:0 13px;border:0;border-radius:999px;background:transparent;color:#d8d5ce;cursor:pointer;display:grid;place-items:center;font-size:16px}.control-btn:hover{background:rgba(255,255,255,.08);color:#fff}.control-btn.active{color:var(--gold);background:rgba(244,209,132,.1)}
+#counter{min-width:72px;text-align:center;font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:.12em;color:#a9aaa6}
+#progress{position:fixed;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.07);z-index:22}#progress-bar{height:100%;width:0;background:var(--gold);transition:width .55s var(--ease)}
+#hint{position:fixed;right:20px;top:18px;z-index:20;font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.45);padding:8px 12px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(0,0,0,.25);transition:opacity .4s}body.controls-hidden #hint{opacity:0}
+/* Responsive */
+@media(max-width:900px){
+ .content-stage{grid-template-columns:1fr;padding:22px 18px 70px}.content-meta{display:none}.image-frame img{max-height:calc(100vh - 92px);max-width:calc(100vw - 30px)}
+ .category-icon{right:7vw;top:8vh;width:88px;height:88px;font-size:34px}.category-number{right:-2vw}.slide-category{padding:9vw}.category-dots{display:none}
+ .message-card{width:88vw}.cover-content{padding:6vh 7vw}.corner{display:none}.final-seal{display:none}
+}
+@media(max-height:650px){#controls{bottom:10px}.content-stage{padding-top:18px;padding-bottom:50px}.image-frame img{max-height:calc(100vh - 66px)}.meta-index{margin-top:26px}.category-icon{top:7vh}}
+@media(prefers-reduced-motion:reduce){.slide{transition:none}.orbit-b{animation:none}}
+</style>
+</head>
+<body>
+<main id="deck" aria-live="polite">
+<section class="slide slide-cover" data-index="0" style="--accent:#f4d184" aria-label="Couverture">
+  <div class="cover-orbit orbit-a"></div><div class="cover-orbit orbit-b"></div>
+  <div class="grain"></div>
+  <div class="cover-content">
+    <div class="birthday-chip"><span>56</span> ANS</div>
+    <p class="eyebrow">UNE SÉLECTION PRÉPARÉE AVEC CŒUR</p>
+    <h1>Pour toi,<br><em>Papa.</em></h1>
+    <p class="cover-subtitle">Des mondes à explorer, des histoires à vivre<br>et de nouvelles routes à prendre.</p>
+    <div class="cover-rule"><span></span><b>JOYEUX ANNIVERSAIRE</b><span></span></div>
+  </div>
+  <div class="corner corner-tl"></div><div class="corner corner-br"></div>
+</section>
+<section class="slide slide-message" data-index="1" style="--accent:#f4d184" aria-label="Message d’anniversaire">
+  <div class="message-card">
+    <p class="eyebrow">UN PETIT MOT AVANT DE COMMENCER</p>
+    <h2>Joyeux anniversaire, Papa.</h2>
+    <div class="message-rule"></div>
+    <p>J’ai rassemblé ici des jeux qui pourraient vraiment te plaire&nbsp;: des mondes exigeants, des histoires fortes, des choix importants et, bien sûr, un coin pilote pensé pour le plaisir de conduire.</p>
+    <p>Ce n’est pas seulement une sélection de jeux. C’est une invitation à choisir ta prochaine aventure.</p>
+    <p class="signature">Pour tes 56 ans, avec tout mon cœur.</p>
+  </div>
+  <div class="message-56">56</div>
+</section>
+<section class="slide slide-category" data-index="2" style="--accent:#91d39b" aria-label="Survie &amp; gestion">
+  <div class="category-grid"></div>
+  <div class="category-number">01</div>
+  <div class="category-icon">◈</div>
+  <div class="category-copy">
+    <p class="eyebrow">CATÉGORIE 01</p>
+    <h2>Survie &amp; gestion</h2>
+    <p class="tagline">Bâtir. Anticiper. Tenir bon.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">Des mondes où chaque décision compte, entre organisation, ressources et survie.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="3" style="--accent:#91d39b" aria-label="Project Zomboid" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1055;--native-h:1491">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/project-zomboid.png" width="1055" height="1491" alt="Page de présentation de Project Zomboid" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">SURVIE &amp; GESTION</p>
+      <h2>Project Zomboid</h2>
+      <p class="meta-subtitle">Survivre un jour de plus.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">04<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-content" data-index="4" style="--accent:#d7ad67" aria-label="Mount &amp; Blade II: Bannerlord" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1109;--native-h:1419">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/mount-and-blade-bannerlord.png" width="1109" height="1419" alt="Page de présentation de Mount &amp; Blade II: Bannerlord" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">SURVIE &amp; GESTION</p>
+      <h2>Mount &amp; Blade II: Bannerlord</h2>
+      <p class="meta-subtitle">Diriger, conquérir, construire une légende.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">05<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-category" data-index="5" style="--accent:#e07a63" aria-label="Infiltration &amp; tactique">
+  <div class="category-grid"></div>
+  <div class="category-number">02</div>
+  <div class="category-icon">◎</div>
+  <div class="category-copy">
+    <p class="eyebrow">CATÉGORIE 02</p>
+    <h2>Infiltration &amp; tactique</h2>
+    <p class="tagline">Observer. Préparer. Agir.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">La patience, le placement et le bon plan font toute la différence.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="6" style="--accent:#d99054" aria-label="Desperados III" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1165;--native-h:1350">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/desperados-3.png" width="1165" height="1350" alt="Page de présentation de Desperados III" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">INFILTRATION &amp; TACTIQUE</p>
+      <h2>Desperados III</h2>
+      <p class="meta-subtitle">Chaque mouvement est une décision.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">07<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-content" data-index="7" style="--accent:#d4b58e" aria-label="Hitman 3" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1122;--native-h:1402">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/hitman-3.png" width="1122" height="1402" alt="Page de présentation de Hitman 3" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">INFILTRATION &amp; TACTIQUE</p>
+      <h2>Hitman 3</h2>
+      <p class="meta-subtitle">Précision, discrétion et liberté d’approche.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">08<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-category" data-index="8" style="--accent:#7bcbd8" aria-label="Narratif">
+  <div class="category-grid"></div>
+  <div class="category-number">03</div>
+  <div class="category-icon">◇</div>
+  <div class="category-copy">
+    <p class="eyebrow">CATÉGORIE 03</p>
+    <h2>Narratif</h2>
+    <p class="tagline">Des choix qui changent tout.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">Des histoires fortes, portées par les personnages et les conséquences de chaque décision.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="9" style="--accent:#70c7df" aria-label="Detroit: Become Human" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1024;--native-h:1536">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/detroit-become-human.png" width="1024" height="1536" alt="Page de présentation de Detroit: Become Human" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">NARRATIF</p>
+      <h2>Detroit: Become Human</h2>
+      <p class="meta-subtitle">Une histoire façonnée par tes choix.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">10<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-category" data-index="10" style="--accent:#d273a8" aria-label="Aventure &amp; monde ouvert">
+  <div class="category-grid"></div>
+  <div class="category-number">04</div>
+  <div class="category-icon">✦</div>
+  <div class="category-copy">
+    <p class="eyebrow">CATÉGORIE 04</p>
+    <h2>Aventure &amp; monde ouvert</h2>
+    <p class="tagline">Des villes immenses. Des vies à découvrir.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">Explorer librement, suivre une histoire marquante et se perdre dans des univers vivants.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="11" style="--accent:#e5cf50" aria-label="Cyberpunk 2077" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1153;--native-h:1364">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/cyberpunk-2077.png" width="1153" height="1364" alt="Page de présentation de Cyberpunk 2077" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">AVENTURE &amp; MONDE OUVERT</p>
+      <h2>Cyberpunk 2077</h2>
+      <p class="meta-subtitle">Une mégalopole, mille chemins possibles.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">12<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-content" data-index="12" style="--accent:#b98f67" aria-label="Mafia II: Definitive Edition" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1147;--native-h:1372">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/mafia-2.png" width="1147" height="1372" alt="Page de présentation de Mafia II: Definitive Edition" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">AVENTURE &amp; MONDE OUVERT</p>
+      <h2>Mafia II: Definitive Edition</h2>
+      <p class="meta-subtitle">Une histoire de loyauté, d’ambition et de conséquences.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">13<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-category" data-index="13" style="--accent:#ef665e" aria-label="Le coin du pilote">
+  <div class="category-grid"></div>
+  <div class="category-number">05</div>
+  <div class="category-icon">◉</div>
+  <div class="category-copy">
+    <p class="eyebrow">PARTIE SPÉCIALE</p>
+    <h2>Le coin du pilote</h2>
+    <p class="tagline">La route se ressent autant qu’elle se regarde.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">Volant, pédales, levier de vitesse et retour de force : tout ce qui transforme un jeu de conduite en véritable expérience.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="14" style="--accent:#ef665e" aria-label="Volant, pédales &amp; retour de force" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1149;--native-h:1369">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/section-volant-ffd.png" width="1149" height="1369" alt="Page de présentation de Volant, pédales &amp; retour de force" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">LE COIN DU PILOTE</p>
+      <h2>Volant, pédales &amp; retour de force</h2>
+      <p class="meta-subtitle">Comprendre ce qui crée les vraies sensations de conduite.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">15<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-category" data-index="15" style="--accent:#f0875b" aria-label="Trois façons de prendre la route">
+  <div class="category-grid"></div>
+  <div class="category-number">06</div>
+  <div class="category-icon">⌁</div>
+  <div class="category-copy">
+    <p class="eyebrow">SIMULATION &amp; ARCADE</p>
+    <h2>Trois façons de prendre la route</h2>
+    <p class="tagline">Du réalisme précis au plaisir immédiat.</p>
+    <div class="category-rule"></div>
+    <p class="category-desc">Voyager, perfectionner son pilotage ou simplement profiter de la vitesse.</p>
+  </div>
+  <div class="category-dots"><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+<section class="slide slide-content" data-index="16" style="--accent:#d28f4b" aria-label="Euro Truck Simulator" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1150;--native-h:1367">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/euro-truck-simulator.png" width="1150" height="1367" alt="Page de présentation de Euro Truck Simulator" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">SIMULATION &amp; ARCADE</p>
+      <h2>Euro Truck Simulator</h2>
+      <p class="meta-subtitle">Prendre la route, voyager et bâtir son entreprise.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">17<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-content" data-index="17" style="--accent:#e1514c" aria-label="Assetto Corsa" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1132;--native-h:1389">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/assetto-corsa.png" width="1132" height="1389" alt="Page de présentation de Assetto Corsa" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">SIMULATION &amp; ARCADE</p>
+      <h2>Assetto Corsa</h2>
+      <p class="meta-subtitle">La précision d’une véritable simulation.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">18<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-content" data-index="18" style="--accent:#df5e99" aria-label="Forza Horizon 5" data-duration="12000">
+  <div class="content-stage">
+    <div class="image-frame" style="--native-w:1122;--native-h:1402">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="assets/forza-horizon-5.png" width="1122" height="1402" alt="Page de présentation de Forza Horizon 5" draggable="false" decoding="async">
+    </div>
+    <aside class="content-meta">
+      <p class="meta-category">SIMULATION &amp; ARCADE</p>
+      <h2>Forza Horizon 5</h2>
+      <p class="meta-subtitle">Le plaisir de conduire, sans limites.</p>
+      <div class="meta-line"></div>
+      <div class="meta-index">19<small> / 20</small></div>
+    </aside>
+  </div>
+</section>
+<section class="slide slide-final" data-index="19" style="--accent:#f4d184" aria-label="Conclusion">
+  <div class="final-stars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="final-content">
+    <p class="eyebrow">ET MAINTENANT…</p>
+    <h2>Joyeux anniversaire<br><em>Papa.</em></h2>
+    <p>56 ans — et encore tant de mondes à découvrir.</p>
+    <div class="final-rule"></div>
+    <strong>À toi de choisir la prochaine aventure.</strong>
+  </div>
+  <div class="final-seal"><span>56</span><small>ANS</small></div>
+</section>
+</main>
+<div id="hint">← → naviguer · F plein écran · H masquer</div>
+<nav id="controls" aria-label="Commandes de présentation">
+  <button class="control-btn" id="prev" aria-label="Diapositive précédente">←</button>
+  <span id="counter">01 / 20</span>
+  <button class="control-btn" id="next" aria-label="Diapositive suivante">→</button>
+  <button class="control-btn" id="auto" aria-label="Lecture automatique" title="Lecture automatique">▶</button>
+  <button class="control-btn" id="fullscreen" aria-label="Plein écran" title="Plein écran">⛶</button>
+</nav>
+<div id="progress"><div id="progress-bar"></div></div>
+<script>
+(() => {
+  const slides=[...document.querySelectorAll('.slide')];
+  const counter=document.getElementById('counter');
+  const progress=document.getElementById('progress-bar');
+  const autoBtn=document.getElementById('auto');
+  let index=Math.max(0,Math.min(slides.length-1,Number(new URLSearchParams(location.search).get('slide')||1)-1)), timer=null, auto=false, lock=false;
+  const pad=n=>String(n).padStart(2,'0');
+  function show(next, direction=1){
+    if(lock || next===index || next<0 || next>=slides.length) return;
+    lock=true;
+    const old=slides[index], incoming=slides[next];
+    old.classList.remove('active'); old.classList.add('was-active');
+    if(direction<0){incoming.style.transform='translate3d(-34px,0,0) scale(.992)';requestAnimationFrame(()=>requestAnimationFrame(()=>incoming.style.transform=''));}
+    incoming.classList.add('active');
+    index=next; update();
+    setTimeout(()=>{old.classList.remove('was-active');lock=false},900);
+    if(auto) schedule();
+  }
+  function ensureLoaded(i){
+    if(i<0||i>=slides.length)return;
+    const s=slides[i];
+    const img=s.querySelector('img[data-src]');
+    if(img && !img.dataset.loaded){img.src=img.dataset.src;img.dataset.loaded='1';}
+  }
+  function update(){
+    [index-1,index,index+1].forEach(ensureLoaded);
+    counter.textContent=`${pad(index+1)} / ${pad(slides.length)}`;
+    progress.style.width=`${((index+1)/slides.length)*100}%`;
+    document.documentElement.style.setProperty('--gold',getComputedStyle(slides[index]).getPropertyValue('--accent') || '#f4d184');
+  }
+  function next(){ if(index<slides.length-1) show(index+1,1); else if(auto){auto=false;autoBtn.classList.remove('active');autoBtn.textContent='▶';clearTimeout(timer);} }
+  function prev(){show(index-1,-1)}
+  function schedule(){clearTimeout(timer); const ms=Number(slides[index].dataset.duration||7000); timer=setTimeout(next,ms)}
+  function toggleAuto(){auto=!auto;autoBtn.classList.toggle('active',auto);autoBtn.textContent=auto?'❚❚':'▶'; if(auto)schedule(); else clearTimeout(timer)}
+  function toggleFullscreen(){ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
+  document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;autoBtn.onclick=toggleAuto;document.getElementById('fullscreen').onclick=toggleFullscreen;
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next()}
+    else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}
+    else if(e.key==='Home'){show(0,-1)}else if(e.key==='End'){show(slides.length-1,1)}
+    else if(e.key.toLowerCase()==='f')toggleFullscreen();
+    else if(e.key.toLowerCase()==='h')document.body.classList.toggle('controls-hidden');
+    else if(e.key.toLowerCase()==='p')toggleAuto();
+  });
+  let x0=null;document.addEventListener('pointerdown',e=>x0=e.clientX);document.addEventListener('pointerup',e=>{if(x0==null)return;const dx=e.clientX-x0;if(Math.abs(dx)>60)(dx<0?next:prev)();x0=null});
+  document.addEventListener('dblclick',toggleFullscreen);
+  slides[index].classList.add('active');update();
+  setTimeout(()=>document.getElementById('hint').style.opacity='.18',6500);
+})();
+</script>
+</body>
+</html>
